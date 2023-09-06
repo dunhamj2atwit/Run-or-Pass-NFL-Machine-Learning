@@ -68,9 +68,8 @@ $\text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP + FP) \cdot (TP + FN) \cd
 		For these values, a better model is indicated by higher test accuracy and MCC values. As well as lower Log-likelihood and AIC. A lower drop in deviance shows a more significance improvement in the newer model. By finding large changes in these values for the nested models to is possible to determine which features have the highest significance.
   
 * **Final Models** A table with these values for the nested models is shown below. Some variables have been removed from this list because of co-linearity issues. A correlation matrix was used to address collinearity and variance inflation factor was used to address multi-collinearity.
-		\begin{center}
-			\includegraphics[scale=0.5]{ResultsTable.jpg}\\
-		\end{center}
+			
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/tree/main/Images)/ResultsTable.jpg)
 		 I settled on two models with similar accuracy. One simpler model including three parameters with slightly worse values and a more complex model with seventeen variables that preforms slightly better. The simple model features are shotgun, first\_down\_pass, and first\_down\_run. The more complex model includes these and addsthe next fourteen selections from the nested models above. These Models were picked due to the complex model having the peak testing accuracy of every model tested, and the simple model for getting extremely similar results with way fewer predictors. A table with the values for these models is shown below.
 		\begin{center}
 			\includegraphics[scale=0.9]{FinalResultsTable.jpg}\\
