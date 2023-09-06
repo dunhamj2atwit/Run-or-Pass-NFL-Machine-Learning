@@ -57,15 +57,17 @@ To find the optimal Logistic Regression Model I fit a series of nested, where on
 * **Mathew's Correlation Coefficient** Mathew's correlation coefficient is another way to measure how well each model makes predictions on the testing data. MCC accounts for imbalances in the data by including not just correct predictions, but including True Positives, True Negatives, False Positives, and False Negatives. The value for MCC ranges between -1 and 1, where one is perfect predictions, 0 is complete random guessing, and negative one is the worst predictions. The Formula is:
 $\text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP + FP) \cdot (TP + FN) \cdot (TN + FP) \cdot (TN + FN)}}$
 * **Log-Likelihood** Another measure of a logistic regression model's fit is the log-likelihood. Which is calculated by taking the logarithm of the likelihood formula which gives the probability of predicting the observed data. This is the measure we are maximizing when fitting logistic regression. The formula for log-likelihood on logistic regression is:
-		\[\text{Log-Likelihood}=\sum(y_i \cdot \log(p_i) + (1 - y_i) \cdot \log(1 - p_i))\]
-		Where $y_i$ is actual outcome in the data set and $p_i$ is the predicted probability of the outcome
-		\subsubsection{Drop in Deviance}
-		Drop in Deviance is a measure used to find the difference between two nested models. Where:
-		\[\text{Deviance}=-2 \cdot\ \text{Log-Likelihood}\]
-		\[\text{Drop-in-Deviance}=\text{Smaller Model Deviance}-\text{Larger Model Deviance}\]
-		This value is equivalent to the test statistic given from the log-likelihood ratio test which can be used to generate p-values. This gives additional insight into the importance of variables in making predictions.
-		\subsubsection{Akaike Information Criterion}
-		Akaike Information Criterion or AIC is yet another measure of the goodness of fit of each model that rewards simpler models with fewer predictor variables. It's formula uses the deviance formula and adds a term in including the number of parameters:
+  
+$\[\text{Log-Likelihood}=\sum(y_i \cdot \log(p_i) + (1 - y_i) \cdot \log(1 - p_i))\]$
+Where $y_i$ is actual outcome in the data set and $p_i$ is the predicted probability of the outcome
+
+* **Drop in Deviance** Drop in Deviance is a measure used to find the difference between two nested models. Where:
+  
+$\text{Deviance}=-2 \cdot\ \text{Log-Likelihood}$
+$\text{Drop-in-Deviance}=\text{Smaller Model Deviance}-\text{Larger Model Deviance}$
+This value is equivalent to the test statistic given from the log-likelihood ratio test which can be used to generate p-values. This gives additional insight into the importance of variables in making predictions.
+
+* **Akaike Information Criterion** Akaike Information Criterion or AIC is yet another measure of the goodness of fit of each model that rewards simpler models with fewer predictor variables. It's formula uses the deviance formula and adds a term in including the number of parameters:
 		\[\text{AIC}=-2 \cdot\ \text{Log-Likelihood} + 2 \cdot \text{Number of Parameters}\]
 		\subsubsection{Comparisons}%different title?***
 		For these values, a better model is indicated by higher test accuracy and MCC values. As well as lower Log-likelihood and AIC. A lower drop in deviance shows a more significance improvement in the newer model. By finding large changes in these values for the nested models to is possible to determine which features have the highest significance.
