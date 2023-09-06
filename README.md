@@ -77,93 +77,68 @@ $\text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP + FP) \cdot (TP + FN) \cd
   ![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/ComplexSummary.jpg)
 Decision Tree
 ------------
-	The next model type I tested were classification decision trees using the rpart package in R. This package decides which features gives creates the best split using Gini impurity. Which uses proportions between classes to measure purity in each potential node. Gini impurity is defined as $G=\sum_{k=1}^K \hat{p}_{mk}(1-\hat{p}_{mk})$. Where K is the number of classes and $\hat{p}_{mk}$ is the proportion of class K in the mth region (potential node). Whether or not a node is included in the tree is determined with Cost Complexity.
-		\subsubsection{Cost Complexity Parameter}
-		The main method I used to pick between different decision trees was testing different complexity parameters. This value determines the threshold for a node to be included in the model. A higher CP value gives a smaller tree and vice versa. This is controlled by adjusting $\alpha$ in the equation: $\text{CP}=R(T)+\alpha|T|$. Where $R(T)$ is the error rate and $|T|$ is the number of terminal nodes in the tree. I tested different $\alpha$ values using 5 fold cross validation and measuring the effectiveness of the trees with Matthew's correlation coefficient averaged over the 5 folds. A plot of the averaged MCC values vs CP values is below.
-		\begin{center}
-			\includegraphics[scale=0.75]{CPPlot.png}
-		\end{center}
-		This selected a best Cost value or "alpha" of 0.0003.
-		\subsubsection{Final Models}
-		The two trees, with default Cost value of 0.01 and the selected one with their testing accuracy and MCC are shown below.\\
-			\begin{center}
-				\includegraphics[scale=0.75]{BaseTree.jpg}\\
-				\textbf{Accuracy: 0.7963272 MCC: 0.5859592 Nodes:3 }\\
-				\includegraphics[scale=0.45]{BestTree.jpg}\\
-				\textbf{Accuracy: 0.8182685 MCC: 0.6258103 Nodes: 51 }
-			\end{center}
+The next model type I tested were classification decision trees using the rpart package in R. This package decides which features gives creates the best split using Gini impurity. Which uses proportions between classes to measure purity in each potential node. Gini impurity is defined as $G=\sum_{k=1}^K \hat{p}_{mk}(1-\hat{p}_{mk})$. Where K is the number of classes and $\hat{p}_{mk}$ is the proportion of class K in the mth region (potential node). Whether or not a node is included in the tree is determined with Cost Complexity.
+* **Cost Complexity Parameter** The main method I used to pick between different decision trees was testing different complexity parameters. This value determines the threshold for a node to be included in the model. A higher CP value gives a smaller tree and vice versa. This is controlled by adjusting $\alpha$ in the equation: $\text{CP}=R(T)+\alpha|T|$. Where $R(T)$ is the error rate and $|T|$ is the number of terminal nodes in the tree. I tested different $\alpha$ values using 5 fold cross validation and measuring the effectiveness of the trees with Matthew's correlation coefficient averaged over the 5 folds. A plot of the averaged MCC values vs CP values is below.
+ ![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/CPPlot.png)
+This selected a best Cost value or "alpha" of 0.0003.
+* **Final Models* The two trees, with default Cost value of 0.01 and the selected one with their testing accuracy and MCC are shown below.\\
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/BaseTree.jpg)
+Accuracy: 0.7963272 MCC: 0.5859592 Nodes:3
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/BestTree.jpg)
+Accuracy: 0.8182685 MCC: 0.6258103 Nodes: 51 
 				
-	\subsection{Support Vector Machine}
-	Support Vector Machines function by finding the optimal separating hyperplane for the given dataset. The process for fitting the best SVM model on this data included: selecting the best "kernel" or boundary shape. This changes the shape of the boundary by modifying function for the hyperplane used in the optimization problem. Another choice that must be made is selecting the best "Cost" parameter, which defines how much the samples inside the margin should be penalized, as well as other parameters dependent on which kernel is selected. One thing to note is that all SVM Models are fit on a subset of the training data (1/10) due to computational limitations.
-		\subsubsection{Kernel Selection}
-		To explore kernel types I used default cost and kernel parameter values and used 5 fold cross validation accuracy averages to compare effectiveness on this problem. A plot of the testing accuracy averages vs kernel type is shown below:
-		\begin{center}
-			\includegraphics[scale=0.75]{KernelPlot.png}
-		\end{center}
-		I ended up exploring models with the radial basis kernel and a set of nested modeling with the same order from the logistic regression forward selection. I mainly included the linear kernel because it's results were only slightly worse and the model creation and parameter tuning is a lot faster with my limited computational resources.
-		\subsubsection{Tuning}
-		To tune these models I used packages in R to preform 5 fold cross validation and selected the best parameters. I was able to train all the nested models with the linear kernel since only the cost parameter needs to be selected. The Radial Kernel preforms slightly better, but the additional gamma value to be tuned requires a grid of values to calculated, taking significantly more time.
-		\subsubsection{Final Models}
-		A table of the nested linear kernel models and their testing accuracy are shown below, more values could be tested in the future, but the these models all selected a cost value of $0.0005$.
-		\begin{center}
-			\includegraphics[scale=0.75]{LinearSVMTable.jpg}
-		\end{center}
-		The testing accuracy maxes out after three variables are added at about 79.6\%. I was able to get slightly better performance with the radial basis of around 80.2\% (varies slightly with different samples) with a cost value of 1.5 and a gamma of 0.075. 
-	\subsection{K-Nearest-Neighbors}
-	KNN is  a classification method that makes decision based on the K nearest points (by euclidean distance) in the training set to guess on which class the testing set points will fall in to. Selecting the optimal value for K is the most important part of creating a KNN Model.
-		\subsubsection{Selecting K}
-		To select K I first tested a wide range of values on the entire training dataset. A graph showing these results are below.
-		\begin{center}
-			\includegraphics[scale=0.75]{Kgraph}
-		\end{center}
-		The highest accuracy lies somewhere between K=50 and 100, so I repeated the test in that range with 5 fold cross validation.
-		\begin{center}
-			\includegraphics[scale=0.75]{KgraphCV}
-		\end{center}
-		\subsubsection{Final Model}
-		The value that preformed best in the cross validation was K=84. Since even numbers of K can have issues with ties, I tested 83,84, and 85. K=85 preformed the best with an accuracy of about 80.2\%.
-	\subsubsection{Neural Network}
-	I settled on using the neuralnet R package to fit these models. The main hyperparamter I will adjusting to explore different neural nets is the number of hidden layers and the number of nodes in each layer. To start, but I've currently fit two simple, one layer, one node, networks. One with all predictors and one with the three most significant. These models are trained on a $50^{th}$ of the data to increase speed.
-	\begin{center}
-		\includegraphics[scale=0.75]{NNsimple.jpg}\\
-		\textbf{Accuracy: 0.7963398 }\\
-		\includegraphics[scale=0.45]{NNcomplex.png}\\
-		\textbf{Accuracy: 0.7986243  }
-	\end{center}
-	When testing different networks with more hidden layers/nodes, there was unfortunately no improvements; the model generally tends to do worse with more complexity. Some of the layers I tested and their testing accuracy are show in the table below. The layers column in this table represents the hidden layers shape. Where the length is the number of hidden layers and the values are the number of neurons for each layer. For example 1,2 represents a two hidden-layer network where the first layer has 1 neuron and the second has 2.
-	\begin{center}
-		\includegraphics{NNTable.jpg}
-	\end{center}
-	 I tested different cutoffs for rounding probabilities such as 0.4 and 0.6 but this didn't give any improvements either. Since these networks use the logistic activation function, the single hidden layer, single neuron model is just a logistic regression model. Because this is the best performing model, neural networks won't be included in the final results table, just logistic regression.
-	\section{Results}
-	Across all five model types it seems pretty clear that the features with the highest significance are shotgun, first down pass, and first down rush. what isn't quite as clear to me is which model type gives the best results. So far the best preforming model is the decision tree with a low complexity parameter, but the high number of nodes gives me some fears that the model may be over-fit. These fears seem to validated when testing these models on data from 2019-2022, the following four seasons after the kaggle data ends. The best performing model, the tree, did the worst when trying to predict data in the future. The tables with results for 2009-2018 and 2019-2022 are below. I haven't been able to fit a neural network that performs better than logistic regression so those models are excluded for now.
-	\begin{figure}[h]
-		\centering
-		\begin{minipage}{.5\textwidth}
-			\centering
-				\includegraphics[scale=0.75]{CurrentResults.jpg}
-		\end{minipage}%
-		\begin{minipage}{.5\textwidth}
-			\centering
-				\includegraphics[scale=0.75]{FutureResults.jpg}
-		\end{minipage}
-	\end{figure}
-	\section{Continued Work}
-	Given the time and computational resources, there seems to quite a bit more that could be explored with these models. I am interested in exploring some trees in between the two I created to see if any simpler trees could give similar performance and give better results on future data. I'd also like to dive deeper into testing SVMs with the radial basis kernel if there is enough time for me to run those tests. Another thing that has been mentioned to me that I didn't quite have time for is exploring other ways to find the order to add variables in the nested models, such as backward selection.
-	\section{References}
-		\begin{thebibliography}{99}
-		\footnotesize
+Support Vector Machine
+------------
+Support Vector Machines function by finding the optimal separating hyperplane for the given dataset. The process for fitting the best SVM model on this data included: selecting the best "kernel" or boundary shape. This changes the shape of the boundary by modifying function for the hyperplane used in the optimization problem. Another choice that must be made is selecting the best "Cost" parameter, which defines how much the samples inside the margin should be penalized, as well as other parameters dependent on which kernel is selected. One thing to note is that all SVM Models are fit on a subset of the training data (1/10) due to computational limitations.
+* **Kernel Selection** To explore kernel types I used default cost and kernel parameter values and used 5 fold cross validation accuracy averages to compare effectiveness on this problem. A plot of the testing accuracy averages vs kernel type is shown below:
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/KernelPlot.png)
+I ended up exploring models with the radial basis kernel and a set of nested modeling with the same order from the logistic regression forward selection. I mainly included the linear kernel because it's results were only slightly worse and the model creation and parameter tuning is a lot faster with my limited computational resources.
+* **Tuning** To tune these models I used packages in R to preform 5 fold cross validation and selected the best parameters. I was able to train all the nested models with the linear kernel since only the cost parameter needs to be selected. The Radial Kernel preforms slightly better, but the additional gamma value to be tuned requires a grid of values to calculated, taking significantly more time.
+* **Final Models** A table of the nested linear kernel models and their testing accuracy are shown below, more values could be tested in the future, but the these models all selected a cost value of $0.0005$.
+[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/LinearSVMTable.jpg)
+The testing accuracy maxes out after three variables are added at about 79.6%. I was able to get slightly better performance with the radial basis of around 80.2% (varies slightly with different samples) with a cost value of 1.5 and a gamma of 0.075.
+
+K-Nearest-Neighbors
+------------
+KNN is  a classification method that makes decision based on the K nearest points (by euclidean distance) in the training set to guess on which class the testing set points will fall in to. Selecting the optimal value for K is the most important part of creating a KNN Model.
+* **Selecting K**
+To select K I first tested a wide range of values on the entire training dataset. A graph showing these results are below.
+[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/Kgraph.png)
+The highest accuracy lies somewhere between K=50 and 100, so I repeated the test in that range with 5 fold cross validation.
+[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/KgraphCV.png)
+
+* **Final Model**
+The value that preformed best in the cross validation was K=84. Since even numbers of K can have issues with ties, I tested 83,84, and 85. K=85 preformed the best with an accuracy of about 80.2%.
+
+Neural Network
+------------
+I settled on using the neuralnet R package to fit these models. The main hyperparamter I will adjusting to explore different neural nets is the number of hidden layers and the number of nodes in each layer. To start, but I've currently fit two simple, one layer, one node, networks. One with all predictors and one with the three most significant. These models are trained on a $50^{th}$ of the data to increase speed.
+[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/NNsimple.jpg)
+Accuracy: 0.7963398
+[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/NNcomplex.jpg)
+Accuracy: 0.7986243
+When testing different networks with more hidden layers/nodes, there was unfortunately no improvements; the model generally tends to do worse with more complexity. Some of the layers I tested and their testing accuracy are show in the table below. The layers column in this table represents the hidden layers shape. Where the length is the number of hidden layers and the values are the number of neurons for each layer. For example 1,2 represents a two hidden-layer network where the first layer has 1 neuron and the second has 2.
+[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/NNTable.jpg) 
+I tested different cutoffs for rounding probabilities such as 0.4 and 0.6 but this didn't give any improvements either. Since these networks use the logistic activation function, the single hidden layer, single neuron model is just a logistic regression model. Because this is the best performing model, neural networks won't be included in the final results table, just logistic regression.
+
+Results
+------------
+Across all five model types it seems pretty clear that the features with the highest significance are shotgun, first down pass, and first down rush. what isn't quite as clear to me is which model type gives the best results. So far the best preforming model is the decision tree with a low complexity parameter, but the high number of nodes gives me some fears that the model may be over-fit. These fears seem to validated when testing these models on data from 2019-2022, the following four seasons after the kaggle data ends. The best performing model, the tree, did the worst when trying to predict data in the future. The tables with results for 2009-2018 and 2019-2022 are below. I haven't been able to fit a neural network that performs better than logistic regression so those models are excluded for now.
+[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/CurrentResults.jpg) 
+[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/FutureResults.jpg) 
+
+Future Work
+------------
+Given the time and computational resources, there seems to quite a bit more that could be explored with these models. I am interested in exploring some trees in between the two I created to see if any simpler trees could give similar performance and give better results on future data. I'd also like to dive deeper into testing SVMs with the radial basis kernel if there is enough time for me to run those tests. Another thing that has been mentioned to me that I didn't quite have time for is exploring other ways to find the order to add variables in the nested models, such as backward selection.
+
+References
+------------
 		
-		\bibitem[Kaggle]{kaggle}
-		Kaggle Big Data Bowl (2022)
-		\newblock \url{https://www.kaggle.com/competitions/nfl-big-data-bowl-2022/data}
+Kaggle Big Data Bowl (2022)
+https://www.kaggle.com/competitions/nfl-big-data-bowl-2022/data
 		
-		\bibitem[NFLScrapeR]{NFLscraper}
-		NFLScrapeR
-		\newblock \url{https://www.nflfastr.com/reference/fast_scraper.html}	
-		
-		\bibitem[ISLR2]{ISLR2}		
-		An Introduction to Statistical Learning
-		\newblock \url{https://hastie.su.domains/ISLR2/ISLRv2_website.pdf}	
-	\end{thebibliography}
-\end{document}
+NFLScrapeR
+https://www.nflfastr.com/reference/fast_scraper.html
+			
+ISLR2: An Introduction to Statistical Learning
+https://hastie.su.domains/ISLR2/ISLRv2_website.pdf
