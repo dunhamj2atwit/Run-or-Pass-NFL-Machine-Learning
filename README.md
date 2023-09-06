@@ -51,13 +51,14 @@ Logistic Regression
 To find the optimal Logistic Regression Model I fit a series of nested, where one variable is added at a time, on the trainging set. The order to add variables was picked using forward selection.
 
 * **Forward Selection** Looking at every possible combination of features would take an insanely long time. To speed this up we can subset the amount of models to look at. I used forward selection for this problem. I started by looking at all the single variables models, and picking the feature that gives the highest testing accuracy. Next, I created a set of two feature models by taking the best performing feature from the single variable models and adding the remaining features. The second best feature is selected by picking the highest testing accuracy of all these two variable models. This is then repeated until all features are listed in order of the highest increase in testing accuracy. This ordering is one that gives us one of the best lists of 1,2,3...N(number of features) variable models without checking every single combination. There are a variety of ways to evaluate the goodness-of-fit for these nested models. These include:
-		\subsubsection{Test Accuracy}
-		The simplest measure of how effective a model is seeing how it preforms in predicting the testing data. First I used the "predict" function in R on each model to get the probabilities of either outcome and then round that probability to the binary 0 or 1. The testing accuracy is calculate taking the sum of correct predictions divided by total number of rows in the testing data.
-		\subsubsection{Mathew's Correlation Coefficient}
-		Mathew's correlation coefficient is another way to measure how well each model makes predictions on the testing data. MCC accounts for imbalances in the data by including not just correct predictions, but including True Positives, True Negatives, False Positives, and False Negatives. The value for MCC ranges between -1 and 1, where one is perfect predictions, 0 is complete random guessing, and negative one is the worst predictions. The Formula is:
-		\[\text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP + FP) \cdot (TP + FN) \cdot (TN + FP) \cdot (TN + FN)}}\]
-		\subsubsection{Log-Likelihood}
-		Another measure of a logistic regression model's fit is the log-likelihood. Which is calculated by taking the logarithm of the likelihood formula which gives the probability of predicting the observed data. This is the measure we are maximizing when fitting logistic regression. The formula for log-likelihood on logistic regression is:
+
+* **Test Accuracy** The simplest measure of how effective a model is seeing how it preforms in predicting the testing data. First I used the "predict" function in R on each model to get the probabilities of either outcome and then round that probability to the binary 0 or 1. The testing accuracy is calculate taking the sum of correct predictions divided by total number of rows in the testing data.
+  
+* **Mathew's Correlation Coefficient** Mathew's correlation coefficient is another way to measure how well each model makes predictions on the testing data. MCC accounts for imbalances in the data by including not just correct predictions, but including True Positives, True Negatives, False Positives, and False Negatives. The value for MCC ranges between -1 and 1, where one is perfect predictions, 0 is complete random guessing, and negative one is the worst predictions. The Formula is:
+$$
+\[\text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP + FP) \cdot (TP + FN) \cdot (TN + FP) \cdot (TN + FN)}}\]
+$$
+* **Log-Likelihood** Another measure of a logistic regression model's fit is the log-likelihood. Which is calculated by taking the logarithm of the likelihood formula which gives the probability of predicting the observed data. This is the measure we are maximizing when fitting logistic regression. The formula for log-likelihood on logistic regression is:
 		\[\text{Log-Likelihood}=\sum(y_i \cdot \log(p_i) + (1 - y_i) \cdot \log(1 - p_i))\]
 		Where $y_i$ is actual outcome in the data set and $p_i$ is the predicted probability of the outcome
 		\subsubsection{Drop in Deviance}
