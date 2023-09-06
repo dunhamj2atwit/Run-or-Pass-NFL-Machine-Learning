@@ -5,58 +5,41 @@ August 17th 2023
 
 Abstract
 ------------
-	This Summer I’ve been studying how machine learning is currently used
-	in the National Football League and experimenting with some applications. I have been exploring different machine learning techniques to
-	find the best model for predicting whether or not a given play will be
-	running or passing play using play-by-play data from 2009-2018. I will
-	be exploring a variety of binary classification methods and validation
-	techniques for this problem. My biggest challenges were selecting the
-	best model type and working down the huge list of initial variables into
-	the simplest model to avoid unnecessary complexity and over-fitting. I
-	ended up discovering the most important factors are whether or not the
-	play starts in shotgun formation, and if the previous play was a first down
-	as a result of a run or a pass. The optimal model type is less clear, I would
-	personally pick logistic regression because of its speed and consistency
-	when testing for future seasons, however there are many methods that
-	can achieve an accuracy of roughly 80\% with no clear standouts.
+This Summer I’ve been studying how machine learning is currently used in the National Football League and experimenting with some applications. I have been exploring different machine learning techniques to find the best model for predicting whether or not a given play will be running or passing play using play-by-play data from 2009-2018. I will be exploring a variety of binary classification methods and validation techniques for this problem. My biggest challenges were selecting the best model type and working down the huge list of initial variables into the simplest model to avoid unnecessary complexity and over-fitting. I ended up discovering the most important factors are whether or not the play starts in shotgun formation, and if the previous play was a first down as a result of a run or a pass. The optimal model type is less clear, I would personally pick logistic regression because of its speed and consistency when testing for future seasons, however there are many methods that can achieve an accuracy of roughly 80\% with no clear standouts.
 Data
 ------------
-	The data set I used is from Kaggle's NFL big data bowl in 2022. This data set has 255 features for every play in the NFL between 2009 and 2018. There are 318,668 samples after removing inapplicable plays, such as kicking plays. Generally for this project, a passing play is defined at a 1, and a running play will be defined as a 0. About 58\% of the applicable plays were passing plays and the remaining 42\% were runs.  After trimming down these variables to only pre-play numerical features, with some new features created, I was left with:
-	\begin{small}
-		\begin{longtable}{l l}
-			%\begin{tabular}{l l}
-			\textbf{Feature} & \textbf{Description}\\
-			\hline
-			yardline-100 & Distance from the endzone\\               
-			quarter-seconds-remaining & seconds remaining in the current quarter\\  
-			half-seconds-remaining & seconds remaining in the current half\\
-			game-seconds-remaining & seconds remaining in the game\\
-			game-half & Current game half (3 for overtime)\\
-			drive & drive number for the current game\\                     
-			qtr & current quarter (5 for overtime)\\
-			down & current down\\
-			goal-to-go & binary, if the team is in a goal-down situation\\                
-			ydstogo & yards until the next first down or goal-line\\
-			ydsnet & total yards gained on the current drive\\
-			shotgun & binary, if the play was in shotgun formation\\                   
-			no-huddle &  binary, if their was a huddle before the play\\
-			posteam-timeouts-remaining & timeouts reaming for the possession team\\
-			defteam-timeouts-remaining & timeouts reaming for the defending team\\
-			posteam-score & Possession team current score \\
-			defteam-score & Defending team current score \\
-			score-differential &  posteam-score - defteam-score\\       
-			first-down-rush & binary, if last play was a rushing first down\\
-			first-down-pass & binary, if the last play was a passing first down\\
-			first-down-penalty & binary, if a previous penalty lead to a first down\\
-			third-down-converted & binary, if the last play was a converted third down\\
-			third-down-failed & binary, if the last play was a failed third down\\
-			fourth-down-converted & binary, if the last play was a fourth down converted\\  
-			isHome & binary, if the position team is at home\\
-			P2R & Pass to run ratio for each team, in each season, up to that play\\
-			\hline
-			%\end{tabular}
-		\end{longtable}
-	\end{small}
+The data set I used is from Kaggle's NFL big data bowl in 2022. This data set has 255 features for every play in the NFL between 2009 and 2018. There are 318,668 samples after removing inapplicable plays, such as kicking plays. Generally for this project, a passing play is defined at a 1, and a running play will be defined as a 0. About 58\% of the applicable plays were passing plays and the remaining 42\% were runs.  After trimming down these variables to only pre-play numerical features, with some new features created, I was left with:
+
+| Feature      | Description  |
+| ------------- |:-------------:| 
+| Quarterback   | 1      | 
+| yardline-100 | Distance from the endzone |              
+| quarter-seconds-remaining | seconds remaining in the current quarter |
+| half-seconds-remaining | seconds remaining in the current half |
+| game-seconds-remaining | seconds remaining in the game |
+| game-half | Current game half (3 for overtime) |
+| drive | drive number for the current game |                 
+| qtr | current quarter (5 for overtime) |
+| down | current down |
+| goal-to-go | binary, if the team is in a goal-down situation |      
+| ydstogo | yards until the next first down or goal-line |
+| ydsnet| total yards gained on the current drive |
+| shotgun | binary, if the play was in shotgun formation |                 
+| no-huddle |  binary, if their was a huddle before the play |
+| posteam-timeouts-remaining | timeouts reaming for the possession team |
+| defteam-timeouts-remaining | timeouts reaming for the defending team |
+| posteam-score | Possession team current score |
+| defteam-score | Defending team current score |
+| score-differential |  posteam-score - defteam-score |
+| first-down-rush | binary, if last play was a rushing first down |
+| first-down-pass | binary, if the last play was a passing first down |
+| first-down-penalty | binary, if a previous penalty lead to a first down |
+| third-down-converted | binary, if the last play was a converted third down |
+| third-down-failed | binary, if the last play was a failed third down |
+| fourth-down-converted | binary, if the last play was a fourth down converted |
+| isHome | binary, if the position team is at home |
+| P2R | Pass to run ratio for each team, in each season, up to that play |
+	
 	After checking for collinearity and multi-collinearity with a corealtion matrix and variance inflation factor, qtr, defteam\_score, posteam\_score, half\_seconds\_remaing, and game\_seconds\_remaining we removed.
 	\section{Methods}
 	To compare Model types I first split the data into a .75/.25 training and testing set. There are several methods I used for interpreting these different models to determine which features have the highest significance and which model type performs the best.
