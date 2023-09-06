@@ -1,23 +1,10 @@
-\documentclass[12pt,letterpaper]{article}
-\usepackage{amsmath,amssymb}
-\usepackage{color}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage{url}
-\usepackage{fullpage}
-\usepackage{ dsfont }
-\usepackage{longtable}
-\usepackage[top=2cm, bottom=4.5cm, left=2.5cm, right=2.5cm]{geometry}
-\graphicspath{{Images}{./}}
-\renewcommand{\baselinestretch}{1.3}
-\title{NFL and Machine Learning\\
-	\large Binary Classification on Play-by-Play Data}
-\author{Josh Dunham}
-\date{\today}
+NFL and Machine Learning-Binary Classification on Play-by-Play Data
+=========================================================
+By Josh Dunham
+August 17th 2023
 
-\begin{document}
-	\maketitle
-	\section{Abstract}
+Abstract
+------------
 	This Summer I’ve been studying how machine learning is currently used
 	in the National Football League and experimenting with some applications. I have been exploring different machine learning techniques to
 	find the best model for predicting whether or not a given play will be
@@ -32,7 +19,8 @@
 	personally pick logistic regression because of its speed and consistency
 	when testing for future seasons, however there are many methods that
 	can achieve an accuracy of roughly 80\% with no clear standouts.
-	\section{Data}
+Data
+------------
 	The data set I used is from Kaggle's NFL big data bowl in 2022. This data set has 255 features for every play in the NFL between 2009 and 2018. There are 318,668 samples after removing inapplicable plays, such as kicking plays. Generally for this project, a passing play is defined at a 1, and a running play will be defined as a 0. About 58\% of the applicable plays were passing plays and the remaining 42\% were runs.  After trimming down these variables to only pre-play numerical features, with some new features created, I was left with:
 	\begin{small}
 		\begin{longtable}{l l}
