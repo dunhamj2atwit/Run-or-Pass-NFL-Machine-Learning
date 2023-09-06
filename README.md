@@ -56,7 +56,7 @@ To find the optimal Logistic Regression Model I fit a series of nested, where on
   
 * **Mathew's Correlation Coefficient** Mathew's correlation coefficient is another way to measure how well each model makes predictions on the testing data. MCC accounts for imbalances in the data by including not just correct predictions, but including True Positives, True Negatives, False Positives, and False Negatives. The value for MCC ranges between -1 and 1, where one is perfect predictions, 0 is complete random guessing, and negative one is the worst predictions. The Formula is:
 $$
-\[\text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP + FP) \cdot (TP + FN) \cdot (TN + FP) \cdot (TN + FN)}}\]
+\text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP + FP) \cdot (TP + FN) \cdot (TN + FP) \cdot (TN + FN)}}
 $$
 * **Log-Likelihood** Another measure of a logistic regression model's fit is the log-likelihood. Which is calculated by taking the logarithm of the likelihood formula which gives the probability of predicting the observed data. This is the measure we are maximizing when fitting logistic regression. The formula for log-likelihood on logistic regression is:
 		\[\text{Log-Likelihood}=\sum(y_i \cdot \log(p_i) + (1 - y_i) \cdot \log(1 - p_i))\]
