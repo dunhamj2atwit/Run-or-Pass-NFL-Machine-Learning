@@ -75,6 +75,7 @@ $\text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP + FP) \cdot (TP + FN) \cd
 		Full summary outputs for each model from R are printed below.
   ![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/SimpleSummary.jpg)
   ![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/ComplexSummary.jpg)
+  
 Decision Tree
 ------------
 The next model type I tested were classification decision trees using the rpart package in R. This package decides which features gives creates the best split using Gini impurity. Which uses proportions between classes to measure purity in each potential node. Gini impurity is defined as $G=\sum_{k=1}^K \hat{p}_{mk}(1-\hat{p}_{mk})$. Where K is the number of classes and $\hat{p}_{mk}$ is the proportion of class K in the mth region (potential node). Whether or not a node is included in the tree is determined with Cost Complexity.
