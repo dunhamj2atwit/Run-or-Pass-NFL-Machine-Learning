@@ -71,18 +71,12 @@ $\text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP + FP) \cdot (TP + FN) \cd
 			
 ![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/ResultsTable.jpg)
 		 I settled on two models with similar accuracy. One simpler model including three parameters with slightly worse values and a more complex model with seventeen variables that preforms slightly better. The simple model features are shotgun, first\_down\_pass, and first\_down\_run. The more complex model includes these and addsthe next fourteen selections from the nested models above. These Models were picked due to the complex model having the peak testing accuracy of every model tested, and the simple model for getting extremely similar results with way fewer predictors. A table with the values for these models is shown below.
-		\begin{center}
-			\includegraphics[scale=0.9]{FinalResultsTable.jpg}\\
-		\end{center}
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/FinalResultsTable.jpg)
 		Full summary outputs for each model from R are printed below.
-		\begin{center}
-			\includegraphics[scale=0.78]{SimpleSummary.jpg}\\
-			\textbf{Simple Model}\\
-			\hfill \break
-			\includegraphics[scale=0.78]{ComplexSummary.jpg}\\
-			\textbf{Complex Model}
-		\end{center}
-	\subsection{Decision Tree}
+  ![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/SimpleSummary.jpg)
+  ![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/ComplexSummary.jpg)
+Decision Tree
+------------
 	The next model type I tested were classification decision trees using the rpart package in R. This package decides which features gives creates the best split using Gini impurity. Which uses proportions between classes to measure purity in each potential node. Gini impurity is defined as $G=\sum_{k=1}^K \hat{p}_{mk}(1-\hat{p}_{mk})$. Where K is the number of classes and $\hat{p}_{mk}$ is the proportion of class K in the mth region (potential node). Whether or not a node is included in the tree is determined with Cost Complexity.
 		\subsubsection{Cost Complexity Parameter}
 		The main method I used to pick between different decision trees was testing different complexity parameters. This value determines the threshold for a node to be included in the model. A higher CP value gives a smaller tree and vice versa. This is controlled by adjusting $\alpha$ in the equation: $\text{CP}=R(T)+\alpha|T|$. Where $R(T)$ is the error rate and $|T|$ is the number of terminal nodes in the tree. I tested different $\alpha$ values using 5 fold cross validation and measuring the effectiveness of the trees with Matthew's correlation coefficient averaged over the 5 folds. A plot of the averaged MCC values vs CP values is below.
