@@ -84,8 +84,10 @@ The next model type I tested were classification decision trees using the rpart 
 This selected a best Cost value or "alpha" of 0.0003.
 * **Final Models* The two trees, with default Cost value of 0.01 and the selected one with their testing accuracy and MCC are shown below.\\
 ![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/BaseTree.jpg)
+
 Accuracy: 0.7963272 MCC: 0.5859592 Nodes:3
 ![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/BestTree.jpg)
+
 Accuracy: 0.8182685 MCC: 0.6258103 Nodes: 51 
 				
 Support Vector Machine
