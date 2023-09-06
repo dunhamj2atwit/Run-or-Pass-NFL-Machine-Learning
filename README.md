@@ -6,13 +6,13 @@ August 17th 2023
 Abstract
 ------------
 This Summer I’ve been studying how machine learning is currently used in the National Football League and experimenting with some applications. I have been exploring different machine learning techniques to find the best model for predicting whether or not a given play will be running or passing play using play-by-play data from 2009-2018. I will be exploring a variety of binary classification methods and validation techniques for this problem. My biggest challenges were selecting the best model type and working down the huge list of initial variables into the simplest model to avoid unnecessary complexity and over-fitting. I ended up discovering the most important factors are whether or not the play starts in shotgun formation, and if the previous play was a first down as a result of a run or a pass. The optimal model type is less clear, I would personally pick logistic regression because of its speed and consistency when testing for future seasons, however there are many methods that can achieve an accuracy of roughly 80\% with no clear standouts.
+
 Data
 ------------
 The data set I used is from Kaggle's NFL big data bowl in 2022. This data set has 255 features for every play in the NFL between 2009 and 2018. There are 318,668 samples after removing inapplicable plays, such as kicking plays. Generally for this project, a passing play is defined at a 1, and a running play will be defined as a 0. About 58\% of the applicable plays were passing plays and the remaining 42\% were runs.  After trimming down these variables to only pre-play numerical features, with some new features created, I was left with:
 
 | Feature      | Description  |
 | ------------- |:-------------:| 
-| Quarterback   | 1      | 
 | yardline-100 | Distance from the endzone |              
 | quarter-seconds-remaining | seconds remaining in the current quarter |
 | half-seconds-remaining | seconds remaining in the current half |
@@ -40,13 +40,16 @@ The data set I used is from Kaggle's NFL big data bowl in 2022. This data set ha
 | isHome | binary, if the position team is at home |
 | P2R | Pass to run ratio for each team, in each season, up to that play |
 	
-	After checking for collinearity and multi-collinearity with a corealtion matrix and variance inflation factor, qtr, defteam\_score, posteam\_score, half\_seconds\_remaing, and game\_seconds\_remaining we removed.
-	\section{Methods}
-	To compare Model types I first split the data into a .75/.25 training and testing set. There are several methods I used for interpreting these different models to determine which features have the highest significance and which model type performs the best.
-	\subsection{Logistic Regression}
-	 To find the optimal Logistic Regression Model I fit a series of nested, where one variable is added at a time, on the trainging set. The order to add variables was picked using forward selection.
-	  	\subsubsection{Forward Selection}
-	  	Looking at every possible combination of features would take an insanely long time. To speed this up we can subset the amount of models to look at. I used forward selection for this problem. I started by looking at all the single variables models, and picking the feature that gives the highest testing accuracy. Next, I created a set of two feature models by taking the best performing feature from the single variable models and adding the remaining features. The second best feature is selected by picking the highest testing accuracy of all these two variable models. This is then repeated until all features are listed in order of the highest increase in testing accuracy. This ordering is one that gives us one of the best lists of 1,2,3...N(number of features) variable models without checking every single combination. There are a variety of ways to evaluate the goodness-of-fit for these nested models. These include:
+After checking for collinearity and multi-collinearity with a corealtion matrix and variance inflation factor, qtr, defteam_score, posteam_score, half_seconds_remaing, and game_seconds_remaining we removed.
+
+Methods
+------------
+To compare Model types I first split the data into a .75/.25 training and testing set. There are several methods I used for interpreting these different models to determine which features have the highest significance and which model type performs the best.
+
+Logistic Regression
+------------
+To find the optimal Logistic Regression Model I fit a series of nested, where one variable is added at a time, on the trainging set. The order to add variables was picked using forward selection.
+	  	* **Forward Selection** Looking at every possible combination of features would take an insanely long time. To speed this up we can subset the amount of models to look at. I used forward selection for this problem. I started by looking at all the single variables models, and picking the feature that gives the highest testing accuracy. Next, I created a set of two feature models by taking the best performing feature from the single variable models and adding the remaining features. The second best feature is selected by picking the highest testing accuracy of all these two variable models. This is then repeated until all features are listed in order of the highest increase in testing accuracy. This ordering is one that gives us one of the best lists of 1,2,3...N(number of features) variable models without checking every single combination. There are a variety of ways to evaluate the goodness-of-fit for these nested models. These include:
 		\subsubsection{Test Accuracy}
 		The simplest measure of how effective a model is seeing how it preforms in predicting the testing data. First I used the "predict" function in R on each model to get the probabilities of either outcome and then round that probability to the binary 0 or 1. The testing accuracy is calculate taking the sum of correct predictions divided by total number of rows in the testing data.
 		\subsubsection{Mathew's Correlation Coefficient}
