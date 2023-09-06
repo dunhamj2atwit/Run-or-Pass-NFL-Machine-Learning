@@ -126,7 +126,7 @@ I settled on using the neuralnet R package to fit these models. The main hyperpa
 [alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/NNsimple.jpg)
 
 Accuracy: 0.7963398
-[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/NNcomplex.jpg)
+[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/NNcomplex.png)
 
 Accuracy: 0.7986243
 When testing different networks with more hidden layers/nodes, there was unfortunately no improvements; the model generally tends to do worse with more complexity. Some of the layers I tested and their testing accuracy are show in the table below. The layers column in this table represents the hidden layers shape. Where the length is the number of hidden layers and the values are the number of neurons for each layer. For example 1,2 represents a two hidden-layer network where the first layer has 1 neuron and the second has 2.
