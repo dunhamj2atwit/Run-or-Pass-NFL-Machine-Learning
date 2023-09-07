@@ -102,7 +102,7 @@ Support Vector Machines function by finding the optimal separating hyperplane fo
 I ended up exploring models with the radial basis kernel and a set of nested modeling with the same order from the logistic regression forward selection. I mainly included the linear kernel because it's results were only slightly worse and the model creation and parameter tuning is a lot faster with my limited computational resources.
 * **Tuning** To tune these models I used packages in R to preform 5 fold cross validation and selected the best parameters. I was able to train all the nested models with the linear kernel since only the cost parameter needs to be selected. The Radial Kernel preforms slightly better, but the additional gamma value to be tuned requires a grid of values to calculated, taking significantly more time.
 * **Final Models** A table of the nested linear kernel models and their testing accuracy are shown below, more values could be tested in the future, but the these models all selected a cost value of $0.0005$.
-[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/LinearSVMTable.jpg)
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/LinearSVMTable.jpg)
 
 The testing accuracy maxes out after three variables are added at about 79.6%. I was able to get slightly better performance with the radial basis of around 80.2% (varies slightly with different samples) with a cost value of 1.5 and a gamma of 0.075.
 
@@ -111,10 +111,10 @@ K-Nearest-Neighbors
 KNN is  a classification method that makes decision based on the K nearest points (by euclidean distance) in the training set to guess on which class the testing set points will fall in to. Selecting the optimal value for K is the most important part of creating a KNN Model.
 * **Selecting K**
 To select K I first tested a wide range of values on the entire training dataset. A graph showing these results are below.
-[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/Kgraph.png)
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/Kgraph.png)
 
 The highest accuracy lies somewhere between K=50 and 100, so I repeated the test in that range with 5 fold cross validation.
-[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/KgraphCV.png)
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/KgraphCV.png)
 
 
 * **Final Model**
@@ -123,23 +123,23 @@ The value that preformed best in the cross validation was K=84. Since even numbe
 Neural Network
 ------------
 I settled on using the neuralnet R package to fit these models. The main hyperparamter I will adjusting to explore different neural nets is the number of hidden layers and the number of nodes in each layer. To start, but I've currently fit two simple, one layer, one node, networks. One with all predictors and one with the three most significant. These models are trained on a $50^{th}$ of the data to increase speed.
-[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/NNsimple.jpg)
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/NNsimple.jpg)
 
 Accuracy: 0.7963398
-[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/NNcomplex.png)
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/NNcomplex.png)
 
 Accuracy: 0.7986243
 When testing different networks with more hidden layers/nodes, there was unfortunately no improvements; the model generally tends to do worse with more complexity. Some of the layers I tested and their testing accuracy are show in the table below. The layers column in this table represents the hidden layers shape. Where the length is the number of hidden layers and the values are the number of neurons for each layer. For example 1,2 represents a two hidden-layer network where the first layer has 1 neuron and the second has 2.
-[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/NNTable.jpg) 
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/NNTable.jpg) 
 
 I tested different cutoffs for rounding probabilities such as 0.4 and 0.6 but this didn't give any improvements either. Since these networks use the logistic activation function, the single hidden layer, single neuron model is just a logistic regression model. Because this is the best performing model, neural networks won't be included in the final results table, just logistic regression.
 
 Results
 ------------
 Across all five model types it seems pretty clear that the features with the highest significance are shotgun, first down pass, and first down rush. what isn't quite as clear to me is which model type gives the best results. So far the best preforming model is the decision tree with a low complexity parameter, but the high number of nodes gives me some fears that the model may be over-fit. These fears seem to validated when testing these models on data from 2019-2022, the following four seasons after the kaggle data ends. The best performing model, the tree, did the worst when trying to predict data in the future. The tables with results for 2009-2018 and 2019-2022 are below. I haven't been able to fit a neural network that performs better than logistic regression so those models are excluded for now.
-[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/CurrentResults.jpg) 
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/CurrentResults.jpg) 
 
-[alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/FutureResults.jpg) 
+![alt text](https://github.com/dunhamj2atwit/Run-or-Pass-NFL-Machine-Learning/blob/main/Images/FutureResults.jpg) 
 
 
 Future Work
